@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internship Registration</title>
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        
+        body { background: #f8fafc; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        
+        .container { 
+            width: 100%; 
+            max-width: 750px; 
+            background: white; 
+            padding: 0px 40px 40px 40px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            
+        }
+        
+        /* Removed all standard margins and padding to kill white space */
+        .header-section { 
+            text-align: center; 
+            margin: 0; 
+            padding: 0; 
+        }
+        
+        /* Made max-width 100% to fill the container, added negative margin */
+        .header-section img { 
+            width: 100%; 
+            max-width: 100%; /* Forces it to fill container width */
+            height: auto; 
+            aspect-ratio: 1445 / 524; 
+            object-fit:cover; 
+            margin: 0 auto; 
+            display: block;
+            /* padding-top: 0px; */
+        }
+        
+        /* Added a negative margin-top to pull the title up into the logo's empty transparent space */
+        .header-section h2 { 
+            color: #0077cc; 
+            margin: 0; 
+            font-size: 24px; 
+            margin-top: -40px; /* Adjust this number if it gets too close to the logo */
+            margin-bottom: 20px;
+        }
+        
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .full-width { grid-column: span 2; }
+        .form-group { display: flex; flex-direction: column; }
+        label { font-size: 13px; font-weight: 600; color: #334155; margin-bottom: 8px; }
+        
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; transition: 0.2s; }
+        input:focus, select:focus, textarea:focus { border-color: #0077cc; }
+        textarea { resize: vertical; min-height: 44px; }
+        
+        .duration-group { display: flex; gap: 10px; }
+        .duration-group > * { flex: 1; }
+        
+        button { background: #f4a340; color: white; border: none; padding: 14px; width: 100%; font-size: 16px; font-weight: 600; border-radius: 6px; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+        button:hover { background: #e09230; }
+        button:disabled { background: #cbd5e1; cursor: not-allowed; }
+
+        .msg { display: none; padding: 15px; margin-bottom: 20px; border-radius: 6px; text-align: center; font-weight: 600; }
+        .success { display: block; background: #dcfce7; color: #166534; }
+        .error { display: block; background: #fee2e2; color: #991b1b; }
+
+        /* 📱 Mobile Screens */
+        @media (max-width: 650px) { 
+            .form-grid { grid-template-columns: 1fr; } 
+            .full-width { grid-column: span 1; } 
+            .container { padding: 0px 20px 20px 20px; } 
+            .header-section h2 { margin-top: -20px; } /* Slightly less pull-up on mobile */
+        }
+
+        /* 💻 Large Monitors (1440p) */
+        @media (min-width: 1440px) {
+            .container { max-width: 900px; padding: 0px 50px 50px 50px; }
+            .header-section h2 { font-size: 28px; margin-top: -50px; }
+            label { font-size: 15px; }
+            input, select, textarea { font-size: 16px; padding: 15px; }
+            button { font-size: 18px; padding: 16px; }
+        }
+
+        /* 🖥️ 4K & Ultra-Wide Screens */
+        @media (min-width: 2560px) {
+            .container { max-width: 1200px; padding: 0px 70px 70px 70px; border-radius: 18px; }
+            .header-section h2 { font-size: 38px; margin-top: -80px; margin-bottom: 25px; }
+            .form-grid { gap: 35px; }
+            label { font-size: 18px; margin-bottom: 12px; }
+            input, select, textarea { font-size: 20px; padding: 22px; border-radius: 8px; }
+            button { font-size: 22px; padding: 22px; margin-top: 20px; border-radius: 8px; }
+            .msg { font-size: 22px; padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-section">
+        <img src="TsLogo.png" alt="Company Logo" id="logo">
+        <h2>Internship Registration Form</h2>
+    </div>
+
+    <div id="statusMsg" class="msg"></div>
+
+    <form id="regForm" action="submit.php" method="POST" enctype="multipart/form-data">
+        <div class="form-grid">
+            <div class="form-group"><label>Full Name</label><input type="text" name="full_name" placeholder="Full Name" required></div>
+            <div class="form-group"><label>Email Address</label><input type="email" name="email" placeholder="Email Address" required></div>
+            <div class="form-group"><label>Phone Number</label><input type="text" name="phone" placeholder="Phone Number"></div>
+            <div class="form-group"><label>University / College</label><input type="text" name="university" placeholder="University / College"></div>
+            <div class="form-group"><label>Degree</label><input type="text" name="degree" placeholder="Degree"></div>
+            <div class="form-group"><label>Year / Semester</label>
+                <select name="year">
+                    <option value="" disabled selected>Select Year</option>
+                    <option>1st Year</option><option>2nd Year</option><option>3rd Year</option><option>4th Year</option>
+                </select>
+            </div>
+            <div class="form-group"><label>CGPA / Percentage</label><input type="text" name="cgpa" placeholder="CGPA / Percentage"></div>
+            <div class="form-group"><label>Preferred Domain</label><input type="text" name="domain" placeholder="Preferred Domain"></div>
+            <div class="form-group"><label>Duration</label>
+                <div class="duration-group">
+                    <input type="number" name="duration" placeholder="Duration">
+                    <select name="duration_unit"><option>Months</option><option>Weeks</option></select>
+                </div>
+            </div>
+            <div class="form-group"><label>Skills (comma separated)</label><textarea name="skills" rows="1" placeholder="Skills (comma separated)"></textarea></div>
+            <div class="form-group full-width"><label>Upload Resume</label><input type="file" name="resume" required></div>
+            <div class="form-group full-width"><button type="submit" id="submitBtn">Apply Now</button></div>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.getElementById('regForm').addEventListener('submit', async function(e) {
+        e.preventDefault(); 
+        const btn = document.getElementById('submitBtn'), msg = document.getElementById('statusMsg');
+        
+        btn.innerHTML = 'Submitting...'; 
+        btn.disabled = true;
+
+        try {
+            let res = await fetch(this.action, { method: 'POST', body: new FormData(this) });
+            msg.innerHTML = await res.text();
+            msg.className = 'msg success';
+            this.reset();
+        } catch (err) {
+            msg.innerHTML = 'An error occurred. Please try again.';
+            msg.className = 'msg error';
+        }
+
+        btn.innerHTML = 'Apply Now'; 
+        btn.disabled = false;
+        setTimeout(() => msg.className = 'msg', 5000); // Hide message after 5s
+    });
+</script>
+
+</body>
+</html>
